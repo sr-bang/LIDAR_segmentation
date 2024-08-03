@@ -1,3 +1,0 @@
-[submodule "lidar_segmentation/submodule-directory"]
-	path = lidar_segmentation/submodule-directory
-	url = https://github.com/VainF/DeepLabV3Plus-Pytorch.git
