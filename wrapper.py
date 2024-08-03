@@ -69,7 +69,7 @@ def main():
         cv2.imwrite(img_save + "/" + str(i) + ".png",stacked_img)
         
         semantic_point_cloud = np.hstack((pts_3D_img[:,:3], point_cloud_clr))
-        visualize_pointcloud(semantic_point_cloud, i, pointcloud_save)
+        visualization(semantic_point_cloud, i, pointcloud_save)
 
     video_file = "video.mp4"
     make_video(10, img_save, video_file)

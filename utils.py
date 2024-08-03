@@ -8,6 +8,7 @@ import copy
 import shutil
 
 
+# To create a directory
 def make_directory(path):
     if os.path.exists(path):
         shutil.rmtree(path)
@@ -15,7 +16,7 @@ def make_directory(path):
     else:
         os.mkdir(path)
 
-
+# To read calibration data
 def read_calib_data():
     filepath = "Data/calibration/calib.txt"
     calib_data = {}
@@ -35,7 +36,7 @@ def read_calib_data():
                 calib_data[key] = values.reshape((1, 5))
     return calib_data["P"], calib_data["K"], calib_data["R0"], calib_data["Tr_cam_to_lidar"], calib_data["D"]
 
-
+# To calculate the projection matrix
 def lidar_to_cam_projectn():
     P, K, R, Tr_cam_to_lidar, D = read_calib_data()
 
@@ -51,11 +52,11 @@ def lidar_to_cam_projectn():
     proj_mat = P_ @ R_rect  @ Tr_lidar_to_cam
     return proj_mat
 
-
+# To check if the points are inside the image frame
 def inside_point_idx(pts_2d, size): # check if the points are inside the image frame
     return ((pts_2d[:, 0] >= 0) & (pts_2d[:, 0] < size[0]) & (pts_2d[:, 1] >= 0) & (pts_2d[:, 1] < size[1]))
 
-
+# To project the lidar points back on the image
 def projecting_lidar_on_img(P, lidar_pts, size):
 
     n = lidar_pts.shape[0]
@@ -72,7 +73,7 @@ def projecting_lidar_on_img(P, lidar_pts, size):
     inliers_idx = inside_point_idx(pts_2d, size)
     return pts_2d[inliers_idx], depth[inliers_idx], lidar_pts[inliers_idx]
 
-
+# To convert bin files to pcd files
 def bin_to_pcd(bin_path, pcd_path):
     size_float = 4
     list_pcd = []
@@ -95,8 +96,8 @@ def convert_all_bin_to_pcd(folder_path, save_path):
         bin_path = os.path.join(folder_path,bin_list[i])
         bin_to_pcd(bin_path, save_path + "/" + str(i) + ".pcd")
 
-
-def visualize_pointcloud(pointcloud, count, save_path):
+# To visualize the point cloud
+def visualization(pointcloud, count, save_path):
 
     xyz = pointcloud[:, 0:3]
     semantics = pointcloud[:, 3:]
